@@ -1,6 +1,6 @@
 ---
 name: wand-enhancer-repo
-description: "Repository guide for Wand Enhancer, a .NET Framework WPF patcher with an embedded Vite/Preact remote web panel. Use when Codex works inside H:\\repos\\Wand-Enhancer, especially for web-panel, bridge, renderer scripts, ASAR patching, Pro activation patches, build output, localStorage, fork branch strategy, GitHub Actions executable builds, or validation tasks."
+description: "Repository guide for Wand Enhancer, a .NET Framework WPF patcher with an embedded Vite/Preact remote web panel. Use when Codex works inside H:\\repos\\Wand-Enhancer, especially for web-panel, bridge, renderer scripts, ASAR patching, Pro activation patches, build output, Rider/MSBuild/CMake native helper issues, localStorage, fork branch strategy, GitHub Actions executable builds, or validation tasks."
 ---
 
 # Wand Enhancer Repo
@@ -38,6 +38,15 @@ For a full Release executable, run from the repo root:
 If `cmake` is installed with Visual Studio Build Tools but missing from `PATH`, temporarily prepend the Visual Studio CMake `bin` directory, then rerun the same build command.
 
 The Release output is `WandEnhancer\bin\Release\WandEnhancer.exe`.
+
+For Rider Debug runs, remember that `WandEnhancer.csproj` validates the native proxy DLL before compiling. Debug builds need `.tmp\cmake\asar-fuses-bypass\Debug\version.dll`; Release builds need the Release equivalent. If Rider reports `Proxy DLL not found: ..\.tmp\cmake\asar-fuses-bypass\Debug\version.dll`, configure/build the native helper for Debug before running the .NET project:
+
+```powershell
+cmake -S tools\asar-fuses-bypass -B .tmp\cmake\asar-fuses-bypass -A x64
+cmake --build .tmp\cmake\asar-fuses-bypass --config Debug
+```
+
+When `cmake` is not available in the shell, use the Visual Studio bundled CMake under `<VS install>\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin`, or add that directory to the user `PATH` and restart Rider.
 
 If Release build fails while copying `WandEnhancer.exe`, check whether the app is already running from `WandEnhancer\bin\Release`; a running instance locks the output file.
 
