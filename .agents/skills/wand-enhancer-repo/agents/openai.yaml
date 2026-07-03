@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wand Enhancer Repo"
+  short_description: "Repo workflows and patch invariants"
+  default_prompt: "Use $wand-enhancer-repo to make a narrow Wand Enhancer repository change."
