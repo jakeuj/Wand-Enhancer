@@ -1,6 +1,6 @@
 ---
 name: wand-enhancer-repo
-description: "Repository guide for Wand Enhancer, a .NET Framework WPF patcher with an embedded Vite/Preact remote web panel. Use when Codex works inside H:\\repos\\Wand-Enhancer, especially for web-panel, bridge, renderer scripts, ASAR patching, Pro activation patches, build output, localStorage, or validation tasks."
+description: "Repository guide for Wand Enhancer, a .NET Framework WPF patcher with an embedded Vite/Preact remote web panel. Use when Codex works inside H:\\repos\\Wand-Enhancer, especially for web-panel, bridge, renderer scripts, ASAR patching, Pro activation patches, build output, localStorage, fork branch strategy, GitHub Actions executable builds, or validation tasks."
 ---
 
 # Wand Enhancer Repo
@@ -13,7 +13,8 @@ Use this skill to make narrow, repo-compatible changes to Wand Enhancer without 
 2. Keep bridge, frontend, protocol, and C# constants aligned through the existing shared sources.
 3. Avoid broad refactors; this repo patches a minified Electron app, so stable anchors and fallback behavior matter.
 4. Read `references/repo-invariants.md` before editing patch-sensitive code in `web-panel/`, `WandEnhancer/`, `AsarSharp/`, or the native helper.
-5. If `docs/` or `.claude/rules/frontend-conventions.md` exists in the checkout, read relevant files before relying on their rules.
+5. Read `references/fork-actions-workflow.md` before changing remotes, branch strategy, fork setup, GitHub Actions workflow dispatch, or executable artifact handling.
+6. If `docs/` or `.claude/rules/frontend-conventions.md` exists in the checkout, read relevant files before relying on their rules.
 
 ## Build And Validation
 
@@ -37,3 +38,7 @@ For a full Release executable, run from the repo root:
 If `cmake` is installed with Visual Studio Build Tools but missing from `PATH`, temporarily prepend the Visual Studio CMake `bin` directory, then rerun the same build command.
 
 The Release output is `WandEnhancer\bin\Release\WandEnhancer.exe`.
+
+If Release build fails while copying `WandEnhancer.exe`, check whether the app is already running from `WandEnhancer\bin\Release`; a running instance locks the output file.
+
+Never commit or push generated executables or build folders (`.exe`, `bin/`, `obj/`, `dist/`). Treat GitHub Actions artifacts as the downloadable executable source.
